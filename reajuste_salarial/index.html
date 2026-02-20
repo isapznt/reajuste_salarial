@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Meritocracia e Reajuste Salarial</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.formulario {
+    width: 40%;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.historico {
+    width: 60%;
+    padding: 20px;
+    background-color: #ffffff;
+    
+}
+
+input, select, button {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="formulario">
+        <h2>Cadastro do Colaborador</h2>
+
+        <input type="text" id="nome" placeholder="Nome do colaborador">
+
+        <select id="cargo">
+            <option value="aprendiz">Aprendiz</option>
+            <option value="analista">Analista de TI</option>
+            <option value="gerente">Gerente de TI</option>
+            <option value="diretor">Diretor de TI</option>
+        </select>
+
+        <input type="number" id="salario" placeholder="Salário Atual">
+
+        <input type="number" id="faltas" placeholder="Número de faltas">
+
+        <input type="number" id="atrasos" placeholder="Número de atrasos">
+
+        <button onclick="avaliar()">Calcular Reajuste</button>
+    </div>
+
+        <div class="historico">
+            <h2>Histórico</h2>
+            <div id="resultado"></div>
+        </div>
+
+    </div>
+
+<script>
+    function avaliar() {
+        let nome = document.getElementById("nome").value;
+        let cargo = document.getElementById("cargo").value;
+        let salario = Number(document.getElementById("salario").value);
+        let faltas = Number(document.getElementById("faltas").value);
+        let atrasos = Number(document.getElementById("atrasos").value);
+
+        let percentual = 0;
+
+        if(cargo === "aprendiz") {
+            percentual = 0;
+        } else if (cargo === "analista") {
+            percentual = 0.10;
+        } else if (cargo === "gerente") {
+            percentual = 0.15;
+        } else if (cargo === "diretor") {
+            percentual = 0.20
+        }
+
+        if (faltas === 0 && atrasos === 0){
+
+            let aumento = salario * percentual;
+            let novoSalario = salario + aumento;
+
+            document.getElementById("resultado").innerHTML = `
+        <h3>Reajuste Aprovado </h3>
+        Colaborador: ${nome} <br>
+        Cargo: ${cargo} <br>
+        Salário Atual: R$ ${salario.toFixed(2)} <br>
+        Percentual de Reajuste: ${(percentual * 100)}% <br>
+        Valor do Aumento: R$ ${aumento.toFixed(2)} <br>
+        Novo Salário: R$ ${novoSalario.toFixed(2)}
+        `;
+
+        } else {
+            document.getElementById("resultado").innerHTML = `
+            <h3>Reajuste Bloqueado </h3>
+        Colaborador: ${nome} <br>
+        Motivo: Histórico com ${faltas} faltas e ${atrasos} atrasos. <br>
+        Orientação: procurar o RH para regularização.
+        `;
+    }
+}
+
+
+</script>
+
+
+
+    
+</body>
+</html>
